@@ -10,6 +10,10 @@ A player may setup a Timer to guess the word within 1 minute.
 
 # Game Rules
 
+Unscramble the letters to find the word by selecting a letter to play
+and checking it against the actual word.  For each guess you are decoding
+the word by being told if the letter is in the correct position or not.
+Green indicate the right position.
 
 # Instructions
 - Choose to have a Timer set or not.
