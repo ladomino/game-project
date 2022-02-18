@@ -20,4 +20,4 @@ letter is in the correct position.
 - If the timer is set and you have not unscrambled the word, you have lost.
 - The solution will be presented whether you win or lose.
 
-![alt text] gameimage.png
+![game image] https://github.com/ladomino/game-project/blob/38343966bca46d8d48cd954e9e16a44edfa2c0ae/gameimage.png
