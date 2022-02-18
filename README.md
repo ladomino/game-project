@@ -2,6 +2,15 @@
 
 Decoder is a game developed using HTML, Javascript and CSS.
 
+A player's task is to guess a word where the letters are scrambled.
+At each step of the guess process the player is told whether a letter is
+in a correct position or not.
+
+A player may setup a Timer to guess the word within 1 minute.
+
+# Game Rules
+
+
 # Instructions
 - Choose to have a Timer set or not.
 - Unscramble the letters by selecting the letter for each position based off
