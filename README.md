@@ -2,13 +2,13 @@
 
 Decoder is a game developed using HTML, Javascript and CSS.
 
-Instructions
+# Instructions
 - Choose to have a Timer set or not.
 - Unscramble the letters by selecting the letter for each position based off
 of feedback provided for each letter.
 - Guess within the Time period or in 10 guesses.
 
-How to Play
+# How to Play
 - Set a Timer or not.
 - Select the Letter for the first Letter Guess. Select the Letter for the 
 second Letter guess until you've completed your Guess.
@@ -20,4 +20,26 @@ letter is in the correct position.
 - If the timer is set and you have not unscrambled the word, you have lost.
 - The solution will be presented whether you win or lose.
 
-![game image](https://github.com/ladomino/game-project/blob/a51b9b43d92f09d81430db50c03c3ba9016e1109/newgameimage.png)
+# Wire Frames
+
+## Game Display
+
+![game image](newgameimage.png)
+
+## Making a Guess
+
+![guess image](guess.png)
+
+
+## Guess Result with Timer Going
+
+![guessresult image](guessresult.png)
+
+
+## Solution
+
+![solution image](solution.png)
+
+## Reset
+
+![reset image](resetbutton.png)
