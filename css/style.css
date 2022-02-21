@@ -1,0 +1,220 @@
+
+h1 {
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: white;
+    margin-top: 50px;
+}
+
+#canvas {
+    height: 500px;
+    width: 300px;
+    border-radius: 30px;
+}
+#canvas:hover {
+    cursor: pointer;
+} 
+
+.phone {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: black;
+    height: 500px;
+    width: 300px;
+    border-color: black; */
+    border: 2px solid #999;
+    border-radius: 30px;
+    box-shadow: 1px 3px 0px 1px #C0C0C0;
+}
+
+.decoder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: rgb(128, 126, 126);
+    height: 470px;
+    width: 270px;
+    border-style: solid;
+    border-color: black;
+    border-radius: 30px;
+}
+.game {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 470px;
+    width: 270px;
+}
+.choose {
+    width: 300px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;;
+    margin-bottom: 8px;
+    /* margin-top: 10px; */
+}
+h4{
+    margin: 2px;
+
+}
+p {
+    text-align: left;
+    margin-top: 60px;
+}
+.buttons {
+    width: 275px;
+    height: 30px;
+    /* max-height: 30px; */
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-rows: 1fr;
+    /* display: flex;
+    align-items: center;
+    justify-content: space-around; */
+    margin-bottom: 0px;
+    margin-top: 5px;
+}
+.buttons>div {
+    width: 40px;
+    height: 30px;
+    margin-top: 10px;
+    margin: 6px;
+    text-align: center;
+}
+
+button {
+    color: black;
+    background-color: lightgray;
+    border-radius: 14px;
+    border-style: none;
+    padding: 1px 10px;
+    outline: none;
+    font-family: "M PLUS Rounded 1c";
+    font-size: 14px;
+    height: 31px;
+    box-shadow: 2px 2px 0px darkgrey;
+}
+button:hover {
+    cursor: pointer;
+    padding: 3px 13px;
+    background-color: white;
+    color: black;
+} 
+
+.grid {
+    display: grid;
+    background-color: black;
+    height: 45px;
+    width: 260px;
+    margin-bottom: 8px;
+    border-radius: 14px;
+}
+.options {
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    grid-template-rows: 1fr;
+    margin-top: 10px;
+}
+.option:hover {
+    cursor: pointer;
+    width: 25px;
+    height: 25px;
+}
+.guess {
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    grid-template-rows: 1fr;
+    margin-top: 15px;
+}
+
+.circle {
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    place-self: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+#solution {
+    width: 300px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr;
+    /* margin-bottom: 2px; */
+}
+
+.solution { 
+    width: 175px;
+    height: 25px;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr;
+    justify-self: self;
+    margin-top: 10px;
+    margin-left: 20px;
+    border-radius: 14px;
+}
+
+#outcome {
+    width: 300px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr;
+    /* margin-bottom: 2px; */
+}
+
+.win {
+    width: 125px;
+    height: 25px;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr;
+    justify-self: self;
+    margin-top: 10px;
+    margin-left: 20px;
+    border-radius: 14px;
+}
+
+.lose {
+    grid-column-start: 2;
+    width: 125px;
+    height: 25px;
+    border-radius: 14px;
+    justify-self: self;
+    margin-top: 10px;
+    margin-left: 10px;  
+}
+
+.reset{
+    padding-top: 4px;
+    justify-self: center;
+    /* align-self: center; */
+}
+
+.black {
+    background-color: black;
+}
+.white {
+    background-color: white;
+}
+
+.hidden {
+    display: none;
+}
+
+.timer_display {
+    grid-column-start: 2;
+    width: 55px;
+    height: 25px;
+    border-radius: 14px;
+    justify-self: self;
+    margin-top: 10px;
+    margin-left: 30px;
+}

@@ -56,3 +56,5 @@ letter is in the correct position.
 ## Reset
 
 ![reset image](resetbutton.png)
+
+
