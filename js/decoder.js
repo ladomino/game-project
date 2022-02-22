@@ -33,7 +33,10 @@ console.log(dictionary[0].word)
 let scrambleElement = document.getElementById('scramble');
 console.log(scrambleElement);
 
+let rounds = 1;
 let guess = 1;
+let solution = "";
+
 let resetButton =  document.getElementById('reset');
 let guessButton = document.getElementById('check');
 let instructionsButton = document.getElementById('instructions');
@@ -110,6 +113,7 @@ scrambleWord = (word) => {
 
 let originalWord = randomWord(dictionary);
 let originalWordArray = originalWord.toUpperCase().split("");
+solution = originalWordArray.toString();
 console.log("ORIGINAL WORD ARRAY: ", originalWordArray);
 
 let s = scrambleWord(originalWord);
@@ -150,7 +154,7 @@ guessWord = () => {
     // console.log("Original word array ", );
 
     // Check to see if you have a Match.
-    if (guessRowArray.toString() === originalWordArray.toString()) {
+    if (guessRowArray.toString() === solution) {
         console.log("You MATCHED!");
     } else {
         console.log("NOT A MATCH");

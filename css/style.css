@@ -70,22 +70,19 @@ p {
     margin-top: 60px;
 }
 .bottom {
-    align-self: flex-end;
+    position: absolute;
+    bottom: 30px;
 }
 
 .buttons {
     width: 275px;
     height: 30px;
-    /* max-height: 30px; */
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;
     grid-template-rows: 1fr;
-    /* display: flex;
-    align-items: center;
-    justify-content: space-around; */
     margin-bottom: 0px;
     margin-top: 5px;
-    align-content: flex-end;
+    align-content: center;
 }
 .buttons>div {
     width: 40px;
@@ -104,7 +101,7 @@ button {
     outline: none;
     font-family: "M PLUS Rounded 1c";
     font-size: 14px;
-    height: 31px;
+    height: 30px;
     box-shadow: 2px 2px 0px darkgrey;
 }
 button:hover {
@@ -117,9 +114,9 @@ button:hover {
 .grid {
     display: grid;
     background-color: black;
-    height: 45px;
+    height: 35px;
     width: 260px;
-    margin-bottom: 8px;
+    margin-bottom: 4px;
     border-radius: 14px;
 }
 .options {
@@ -174,7 +171,8 @@ button:hover {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     grid-template-rows: 1fr;
-    /* margin-bottom: 2px; */
+    position: absolute;
+    bottom: 80px;
 }
 
 .win {
