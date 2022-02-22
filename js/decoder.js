@@ -33,11 +33,35 @@ console.log(dictionary[0].word)
 let scrambleElement = document.getElementById('scramble');
 console.log(scrambleElement);
 
+let guess = 1;
+let resetButton =  document.getElementById('reset');
+let guessButton = document.getElementById('check');
+let instructionsButton = document.getElementById('instructions');
+let timerButton = document.getElementById('timer');
 
-let reset =  document.getElementById('reset');
-let guess = document.getElementById('check');
-let instructions = document.getElementById('instructions');
-let timer = document.getElementById('timer');
+// pickLetter will get the button letter information and then find 
+//  the correct empty guess row circle to place the letter in.
+pickLetter = (event) => {
+    console.log("pickLetter");
+    let letter = event.target.innerText;
+    console.log("pickLetter: letter:", letter);
+    let firstGuess = document.getElementById(`guess${guess}`);
+    for(let i=0, len = firstGuess.childElementCount ; i < len; ++i){
+        if (firstGuess.children[i].innerText === "") {
+            console.log(firstGuess.children[i]);
+            firstGuess.children[i].innerText = letter;
+            break;
+        }
+    }
+}
+
+// enableScrambleButtons will add click events to the children of
+//   the div scramble output.
+enableScramble = () => {
+    for(let i=0, len = scrambleElement.childElementCount ; i < len; ++i){
+        scrambleElement.children[i].addEventListener('click', pickLetter);
+    }
+}
 
 // displayScramble takes in an array of letters and for each
 //   circle in the div scramble will assign the scrambled letter from
@@ -46,16 +70,21 @@ displayScramble = (letterArray) => {
     for(let i=0, len = scrambleElement.childElementCount ; i < len; ++i){
         console.log(scrambleElement.children[i]);
         scrambleElement.children[i].innerText = letterArray[i];
-        }
+    }
     
 }
 
+// randomWord takes an array of dictionary words and returns one string
+//   word.
 randomWord = (dictionaryArray) => {
   let index = Math.floor(Math.random() * dictionaryArray.length + 1) - 1;  
   console.log("Random Word: ", dictionaryArray[index].word);
   return dictionaryArray[index].word
 }
 
+// scrambleWord takes a string word and creates an array in order to
+//   randomly shuffle the characters in the word.
+//   It returns an array.
 scrambleWord = (word) => {
     // Take the word and create an array with letters
     let letters=word.toUpperCase().split("");
@@ -79,13 +108,59 @@ scrambleWord = (word) => {
   return (letters);
 }
 
-let s = scrambleWord(randomWord(dictionary));
+let originalWord = randomWord(dictionary);
+let originalWordArray = originalWord.toUpperCase().split("");
+console.log("ORIGINAL WORD ARRAY: ", originalWordArray);
+
+let s = scrambleWord(originalWord);
 console.log("Scramble: ", s);
 displayScramble(s);
 
 guessWord = () => {
     console.log("guessWord: ");
+
+    let guessRowArray = [];
+
+    // Compare the word from the guess to the original word letter by
+    //  letter and change the circle to green if the letter is correct.
+
+    let guessRow = document.getElementById(`guess${guess}`);
+    console.log("guessWord: guessRow: ",guessRow);
+    // let guessChildren = guessRow.childNodes;
+    // console.log(guessChildren);
+    
+    // Go thru the divs to create an array to check for a string match.
+    // While doing this also update which letters are in the correct position
+    //   and set the color for the circle.
+    for (let i=0, len = guessRow.childElementCount ; i < len; ++i){
+        guessRowArray.push(guessRow.children[i].innerText);
+
+        console.log("Comparing: ", guessRow.children[i].innerText);
+        console.log("    to: ", originalWordArray[i]);
+        if (guessRow.children[i].innerText ===
+            originalWordArray[i]) {
+            guessRow.children[i].style.backgroundColor = 'green';
+        }
+
+    }
+
+    console.log("Row Array: ", guessRowArray);
+    // let newWord = guessRowArray.join("");
+    // console.log("New Word to Check: ", newWord);
+    // console.log("Original word array ", );
+
+    // Check to see if you have a Match.
+    if (guessRowArray.toString() === originalWordArray.toString()) {
+        console.log("You MATCHED!");
+    } else {
+        console.log("NOT A MATCH");
+        // Need to see which letters are in the correct position
+    }
+
+    // Update to the next guess
+    guess++;
 }
+
 resetGame = () => {
     console.log("resetGame: ");
 }
@@ -98,7 +173,8 @@ startTimer = () => {
     console.log("startTimer : ");
 }
 
-reset.addEventListener("click", resetGame);
-guess.addEventListener("click", guessWord);
-instructions.addEventListener("click", displayInstructions);
-timer.addEventListener("click", startTimer);
+enableScramble();
+resetButton.addEventListener("click", resetGame);
+guessButton.addEventListener("click", guessWord);
+instructionsButton.addEventListener("click", displayInstructions);
+timerButton.addEventListener("click", startTimer);
