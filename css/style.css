@@ -27,7 +27,7 @@ body {
     background-color: black;
     height: 500px;
     width: 300px;
-    border-color: black; */
+    border-color: black;
     border: 2px solid #999;
     border-radius: 30px;
     box-shadow: 1px 3px 0px 1px #C0C0C0;
@@ -59,7 +59,6 @@ body {
     justify-content: center;
     align-items: center;;
     margin-bottom: 8px;
-    /* margin-top: 10px; */
 }
 h4{
     margin: 2px;
@@ -152,18 +151,17 @@ button:hover {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     grid-template-rows: 1fr;
-    /* margin-bottom: 2px; */
 }
 
 .solution { 
+    display: inline;
     width: 175px;
     height: 25px;
-    grid-template-columns: 1fr 1fr 1fr;
-    grid-template-rows: 1fr;
-    justify-self: self;
     margin-top: 10px;
     margin-left: 20px;
     border-radius: 14px;
+    text-align: center;
+    padding-top: 5px;
 }
 
 #outcome {
@@ -173,6 +171,8 @@ button:hover {
     grid-template-rows: 1fr;
     position: absolute;
     bottom: 80px;
+    text-align: center;
+    padding-top: 5px
 }
 
 .win {
@@ -180,10 +180,12 @@ button:hover {
     height: 25px;
     grid-template-columns: 1fr 1fr;
     grid-template-rows: 1fr;
-    justify-self: self;
     margin-top: 10px;
     margin-left: 20px;
     border-radius: 14px;
+    padding-top: 5px;
+    padding-left: 5px;
+    margin-bottom: 0;
 }
 
 .lose {
@@ -191,9 +193,11 @@ button:hover {
     width: 125px;
     height: 25px;
     border-radius: 14px;
-    justify-self: self;
     margin-top: 10px;
-    margin-left: 10px;  
+    margin-right: 10px; 
+    padding-top: 5px;
+    padding-left: 5px; 
+    margin-bottom: 0;
 }
 
 .reset{
@@ -218,7 +222,8 @@ button:hover {
     width: 55px;
     height: 25px;
     border-radius: 14px;
-    justify-self: self;
     margin-top: 10px;
     margin-left: 30px;
+    text-align: center;
+    padding-top: 5px;
 }

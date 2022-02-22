@@ -35,12 +35,39 @@ console.log(scrambleElement);
 
 let rounds = 1;
 let guess = 1;
+let wins = 0;
 let solution = "";
 
 let resetButton =  document.getElementById('reset');
 let guessButton = document.getElementById('check');
 let instructionsButton = document.getElementById('instructions');
 let timerButton = document.getElementById('timer');
+let answerDisplay = document.getElementById('answer_display');
+let clockDisplay = document.getElementById('clock_display');
+let winnerDisplay = document.getElementById('winner_display');
+let loserDisplay = document.getElementById('loser_display');
+
+updateGameWins = () => {
+    wins++;
+    winnerDisplay.style.color = 'white';
+    winnerDisplay.innerHTML = `<span style="color: red">WINS:</span>  ${wins}`
+}
+
+// updateGameStatus will update the answer display depending on whether
+//   the a player has won or not.
+updateGameStatus = (winner) => {
+
+    answerDisplay.style.color = 'white';
+    console.log("updateGameStatus: ");
+    if (winner) {
+        // answerDisplay.innerText = `${originalWord.toUpperCase()}`;
+        answerDisplay.innerHTML = `<span style="color: red">YOU WON!</span>  ${originalWord.toUpperCase()}`;
+
+        updateGameWins();
+    } else {
+        answerDisplay.innerText = 'Try Again';
+    }
+}
 
 // pickLetter will get the button letter information and then find 
 //  the correct empty guess row circle to place the letter in.
@@ -156,9 +183,14 @@ guessWord = () => {
     // Check to see if you have a Match.
     if (guessRowArray.toString() === solution) {
         console.log("You MATCHED!");
+
+        updateGameStatus(true);
+
     } else {
         console.log("NOT A MATCH");
         // Need to see which letters are in the correct position
+
+        updateGameStatus(false);
     }
 
     // Update to the next guess
