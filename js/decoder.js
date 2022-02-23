@@ -175,21 +175,24 @@ resetGame = () => {
         unhideGuesses();
     }
 
-    // Need to remove all the letters in the displays.
-
     // resetGameLoss();
     // resetGameWins();
 
+    // Reset the Game Display
     resetGameStatus();
+
+    // Reset the Guesses to empty, enable the Guess button
     resetGuesses();
+    enableGuess();
 
     // Resets the Alarm and Timer Display
     resetAlarm();
     resetTimer();
 
+    // Reset Scramble Display with new word
     resetDisplayScramble();
-
     setNewWord();
+    enableScramble();
 }
 
 updateGameRounds = () => {
@@ -206,6 +209,8 @@ updateGameLoss = () => {
        resetAlarm();
        loserDisplay.style.color = 'white';
        loserDisplay.innerHTML = `<span style="color: red">LOSE:</span> ${lose}`;
+       disableGuess();
+       disableScramble();
     }
 }
 
@@ -229,6 +234,9 @@ updateGameStatus = (winner) => {
         answerDisplay.innerHTML = `<span style="color: red">YOU WON!</span>  ${originalWord.toUpperCase()}`;
 
         updateGameWins();
+        disableGuess();
+        disableScramble();
+
     } else {
         if (guess !== 5) {
             answerDisplay.innerText = 'Guess Again';
@@ -252,6 +260,15 @@ pickLetter = (event) => {
             firstGuess.children[i].innerText = letter;
             break;
         }
+    }
+}
+
+
+// disableScramble will remove click events to the children of
+//   the div scramble output.
+disableScramble = () => {
+    for(let i=0, len = scrambleElement.childElementCount ; i < len; ++i){
+        scrambleElement.children[i].removeEventListener('click', pickLetter);
     }
 }
 
@@ -358,6 +375,18 @@ guessWord = () => {
     guess++;
 }
 
+// disableGuess will remove the ability to click on the guess button.
+//   Used after a win or lose
+disableGuess = () => {
+    guessButton.removeEventListener("click", guessWord);
+}
+
+// enable Guess will add the ability to click on the guess button.
+//   Used during intialization and during a reset.
+enableGuess = () => {
+    guessButton.addEventListener("click", guessWord);
+}
+
 displayInstructions = () => {
     console.log("displayInstructions: ");
 
@@ -422,7 +451,7 @@ updateGameRounds();
 
 // Add Listening Events for all the Buttons
 resetButton.addEventListener("click", resetGame);
-guessButton.addEventListener("click", guessWord);
+enableGuess();
 instructionsButton.addEventListener("click", displayInstructions);
 if (enableTimerButton) {
     timerButton.addEventListener("click", startTimer);
