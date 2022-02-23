@@ -36,7 +36,10 @@ console.log(scrambleElement);
 let rounds = 1;
 let guess = 1;
 let wins = 0;
+let lose = 0;
 let solution = "";
+let alarm = "";
+let enableTimerButton = true;
 
 let resetButton =  document.getElementById('reset');
 let guessButton = document.getElementById('check');
@@ -47,10 +50,125 @@ let clockDisplay = document.getElementById('clock_display');
 let winnerDisplay = document.getElementById('winner_display');
 let loserDisplay = document.getElementById('loser_display');
 
+resetTimer = () => {
+    console.log("resetTimer:");
+    clockDisplay.innerText = " ";
+    clockDisplay.style.color = "black";
+
+    // if the timer has been disabled then enable the button event
+    //   listener.
+    if (!enableTimerButton) {
+        timerButton.addEventListener("click", startTimer);
+    }
+}
+
+resetGameLoss = () => {
+    console.log("resetGameLoss:");
+    loserDisplay.innerHTML = " ";
+}
+
+resetGameWins = () => {
+    console.log("resetGameWins:");
+    winnerDisplay.innerHTML = " ";
+
+}
+
+resetGameStatus = () => {
+    console.log("resetGameStatus");
+    answerDisplay.innerHTML = " ";
+}
+
+resetGuesses = () => {
+    // Retrieve all the guess elements
+    //   This will match on the starting guess in the id
+    let allGuesses = document.querySelectorAll('[id^="guess"]');
+    console.log("All Guesses:", allGuesses);
+
+    // // Go thru the children of the guess elements and reset to empty.
+    for(let i=0, len = allGuesses.length ; i < len; ++i){
+        // Loop through all the children of a Guess for the circles
+        for (let j = 0, clen = allGuesses[i].children.length; j < clen; j++) {
+          allGuesses[i].children[j].innerText = " ";
+          allGuesses[i].children[j].style.backgroundColor = 'white';
+        }
+    }
+}
+
+resetDisplayScramble = () => {
+    for(let i=0, len = scrambleElement.childElementCount ; i < len; ++i){
+        console.log(scrambleElement.children[i]);
+        scrambleElement.children[i].innerText = " ";
+    }
+}
+
+setNewWord = () => {
+    originalWord = randomWord(dictionary);
+    originalWordArray = originalWord.toUpperCase().split("");
+    solution = originalWordArray.toString();
+    console.log("ORIGINAL WORD ARRAY: ", originalWordArray);
+    
+    let s = scrambleWord(originalWord);
+    console.log("Scramble: ", s);
+    displayScramble(s);
+}
+
+// Clears an Alarm and Time period that is currently activated.
+resetAlarm = () => {
+    if (alarm !== "") {
+        clearTimeout(alarm);
+        alarm = "";
+    }
+}
+
+// resetNewGame will initialize all the variables for the gameboard
+//   It will also remove any text created from prior running the game.
+//   It will also redisplay a new scrambled word.
+resetGame = () => {
+
+    console.log("resetGame");
+
+    // wins = 0;
+    // lose = 0;
+    guess = 1;
+    solution = "";
+
+    // Need to remove all the letters in the displays.
+
+    // resetGameLoss();
+    // resetGameWins();
+
+    resetGameStatus();
+    resetGuesses();
+
+    // Resets the Alarm and Timer Display
+    resetAlarm();
+    resetTimer();
+
+    resetDisplayScramble();
+
+    setNewWord();
+}
+
+
+// updateGameLoss will update the loss of the game once you have guessed
+//   5 times and there is no match.  It will display the LOSE message in
+//   the loss display area.
+updateGameLoss = () => {
+    if (guess === 5) {
+       lose++; 
+       resetAlarm();
+       loserDisplay.style.color = 'white';
+       loserDisplay.innerHTML = `<span style="color: red">LOSE:</span> ${lose}`;
+    }
+}
+
+// updateGameWins will update the wins of the game and also display the wins
+//   message in the win display area.
 updateGameWins = () => {
     wins++;
+    resetAlarm();
     winnerDisplay.style.color = 'white';
-    winnerDisplay.innerHTML = `<span style="color: red">WINS:</span>  ${wins}`
+    winnerDisplay.innerHTML = `<span style="color: red">WINS:</span> ${wins}`;
 }
 
 // updateGameStatus will update the answer display depending on whether
@@ -65,7 +183,12 @@ updateGameStatus = (winner) => {
 
         updateGameWins();
     } else {
-        answerDisplay.innerText = 'Try Again';
+        if (guess !== 5) {
+            answerDisplay.innerText = 'Guess Again';
+        } else {
+            answerDisplay.innerText = 'You LOSE!';
+        }
+        updateGameLoss();
     }
 }
 
@@ -197,20 +320,42 @@ guessWord = () => {
     guess++;
 }
 
-resetGame = () => {
-    console.log("resetGame: ");
-}
-
 displayInstructions = () => {
     console.log("displayInstructions: ");
 }
 
 startTimer = () => {
     console.log("startTimer : ");
+
+    // Disable the Timer button from being called again.
+    timerButton.removeEventListener("click", startTimer);
+    enableTimerButton = false;
+
+
+    // Setup the 1 minute Timer and display the countdown.  Update
+    //  the display every 1 second.
+    let seconds = 60;
+    tick = () => {
+        seconds--;
+        clockDisplay.innerText = "0:" + (seconds < 10 ? "0" : "") + String(seconds);
+        clockDisplay.style.color = "yellow";
+        if( seconds > 0 ) {
+            alarm = setTimeout(tick, 1000);
+        } else {
+            answerDisplay.innerText = 'Timed out: You LOSE!';
+            // You lose so set to end of your guesses to reinitialize.
+            guess = 5;
+            updateGameLoss();
+        }
+    }
+
+    tick();
 }
 
 enableScramble();
 resetButton.addEventListener("click", resetGame);
 guessButton.addEventListener("click", guessWord);
 instructionsButton.addEventListener("click", displayInstructions);
-timerButton.addEventListener("click", startTimer);
+if (enableTimerButton) {
+    timerButton.addEventListener("click", startTimer);
+}
