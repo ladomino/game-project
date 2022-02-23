@@ -40,6 +40,7 @@ let lose = 0;
 let solution = "";
 let alarm = "";
 let enableTimerButton = true;
+let enableInstructions = false;
 
 let resetButton =  document.getElementById('reset');
 let guessButton = document.getElementById('check');
@@ -50,6 +51,7 @@ let clockDisplay = document.getElementById('clock_display');
 let winnerDisplay = document.getElementById('winner_display');
 let loserDisplay = document.getElementById('loser_display');
 let roundsDisplay = document.getElementById('rounds_display');
+let instructionsDisplay = document.getElementById("rules_display");
 
 resetTimer = () => {
     console.log("resetTimer:");
@@ -79,7 +81,39 @@ resetGameStatus = () => {
     answerDisplay.innerHTML = " ";
 }
 
+hideInstructions = () => {
+    instructionsDisplay.style.display = "none";
+}
 
+unhideInstructions = () => {
+    instructionsDisplay.style.display = "block";
+
+}
+
+unhideGuesses = () => {
+    // Retrieve all the guess elements
+    //   This will match on the starting guess in the id
+    let allGuesses = document.querySelectorAll('[id^="guess"]');
+    // console.log("All Guesses:", allGuesses);
+
+    // // Go thru the children of the guess elements and reset to empty.
+    for(let i=0, len = allGuesses.length ; i < len; ++i){
+        allGuesses[i].style.display = "grid";
+    }
+}
+
+hideGuesses = () => {
+    // Retrieve all the guess elements
+    //   This will match on the starting guess in the id
+    let allGuesses = document.querySelectorAll('[id^="guess"]');
+    // console.log("All Guesses:", allGuesses);
+
+    // // Go thru the children of the guess elements and reset to empty.
+    for(let i=0, len = allGuesses.length ; i < len; ++i){
+        allGuesses[i].style.display = "none";
+    }
+
+}
 
 resetGuesses = () => {
     // Retrieve all the guess elements
@@ -134,6 +168,12 @@ resetGame = () => {
     // lose = 0;
     guess = 1;
     solution = "";
+    // Check if instructions are displayed and hide them
+    if (enableInstructions) {
+        enableInstructions = false;
+        hideInstructions();
+        unhideGuesses();
+    }
 
     // Need to remove all the letters in the displays.
 
@@ -320,6 +360,21 @@ guessWord = () => {
 
 displayInstructions = () => {
     console.log("displayInstructions: ");
+
+    // if instructions are already showing then hide them again.
+    if (enableInstructions) {
+        hideInstructions();
+        unhideGuesses();
+        enableInstructions = false;
+
+    } else {
+        // Hide the Guesses
+        hideGuesses();
+
+        // Unhide the Rules
+        unhideInstructions();
+        enableInstructions = true;
+    }
 }
 
 startTimer = () => {
