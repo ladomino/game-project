@@ -49,6 +49,7 @@ let answerDisplay = document.getElementById('answer_display');
 let clockDisplay = document.getElementById('clock_display');
 let winnerDisplay = document.getElementById('winner_display');
 let loserDisplay = document.getElementById('loser_display');
+let roundsDisplay = document.getElementById('rounds_display');
 
 resetTimer = () => {
     console.log("resetTimer:");
@@ -77,6 +78,8 @@ resetGameStatus = () => {
     console.log("resetGameStatus");
     answerDisplay.innerHTML = " ";
 }
+
+
 
 resetGuesses = () => {
     // Retrieve all the guess elements
@@ -149,6 +152,10 @@ resetGame = () => {
     setNewWord();
 }
 
+updateGameRounds = () => {
+    roundsDisplay.style.color = 'red';
+    roundsDisplay.innerHTML = `${rounds}`;  
+}
 
 // updateGameLoss will update the loss of the game once you have guessed
 //   5 times and there is no match.  It will display the LOSE message in
@@ -261,15 +268,6 @@ scrambleWord = (word) => {
   return (letters);
 }
 
-let originalWord = randomWord(dictionary);
-let originalWordArray = originalWord.toUpperCase().split("");
-solution = originalWordArray.toString();
-console.log("ORIGINAL WORD ARRAY: ", originalWordArray);
-
-let s = scrambleWord(originalWord);
-console.log("Scramble: ", s);
-displayScramble(s);
-
 guessWord = () => {
     console.log("guessWord: ");
 
@@ -352,7 +350,22 @@ startTimer = () => {
     tick();
 }
 
+// setup the Scrambled Word and formats for comparisons.
+let originalWord = randomWord(dictionary);
+let originalWordArray = originalWord.toUpperCase().split("");
+solution = originalWordArray.toString();
+console.log("ORIGINAL WORD ARRAY: ", originalWordArray);
+
+let s = scrambleWord(originalWord);
+console.log("Scramble: ", s);
+
+// Setup the initial Scrambled word and enable each letter to 
+//   be clicked.
+displayScramble(s);
 enableScramble();
+updateGameRounds();
+
+// Add Listening Events for all the Buttons
 resetButton.addEventListener("click", resetGame);
 guessButton.addEventListener("click", guessWord);
 instructionsButton.addEventListener("click", displayInstructions);
