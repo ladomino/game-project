@@ -157,6 +157,7 @@ resetTimer = () => {
     //   listener.
     if (!enableTimerButton) {
         timerButton.addEventListener("click", startTimer);
+        enableTimerButton = true;
     }
 }
 
@@ -332,6 +333,8 @@ updateGameLoss = () => {
         updateGameLoseDisplay();
         disableGuess();
         disableScramble();
+        disableTimerButton();
+        resetAlarm();
     } else {
         if ((rounds === 1 && (guess === 5)) ||
             (rounds === 2 && (guess === 4)) ||
@@ -341,6 +344,7 @@ updateGameLoss = () => {
             updateGameLoseDisplay();
             disableGuess();
             disableScramble();
+            disableTimerButton();
 
         } else {
             // When in guessing mode - there is no winner or loser
@@ -348,7 +352,6 @@ updateGameLoss = () => {
             answerDisplay.innerText = 'Guess Again'; 
         }
     }
-    resetAlarm();
 }
 
 
@@ -382,9 +385,10 @@ updateGameStatus = (winner) => {
         updateGameWinsDisplay();
 
 
-        // Disable guessing and scramble buttons
+        // Disable guessing, scramble and timer buttons
         disableGuess();
         disableScramble();
+        disableTimerButton();
 
     } else {
         answerDisplay.style.color = 'white';
@@ -393,6 +397,7 @@ updateGameStatus = (winner) => {
             updateGameWins();
             disableGuess();
             disableScramble();
+            disableTimerButton();
         } else {
             updateGameLoss();
         }
@@ -554,13 +559,18 @@ displayInstructions = () => {
     }
 }
 
+// disableTimerButton Disable the Timer button.  Used when won or 
+//   lose game to disable buttons from working.
+disableTimerButton = () => {
+    timerButton.removeEventListener("click", startTimer);
+    enableTimerButton = false;
+}
+
 startTimer = () => {
     console.log("startTimer : ");
 
     // Disable the Timer button from being called again.
-    timerButton.removeEventListener("click", startTimer);
-    enableTimerButton = false;
-
+    disableTimerButton();
 
     // Setup the 1 minute Timer and display the countdown.  Update
     //  the display every 1 second.
