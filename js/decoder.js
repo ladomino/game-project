@@ -35,10 +35,7 @@ const dictionaryData = [{"word":"aahed"},{"word":"aalii"},{"word":"aargh"},{"wor
 
 
 const dictionary = JSON.parse(JSON.stringify(dictionaryData));
-console.log(dictionary[0].word);
-
-let scrambleElement = document.getElementById('scramble');
-console.log(scrambleElement);
+// console.log(dictionary[0].word);
 
 let rounds = 1;
 let guess = 1;
@@ -50,6 +47,7 @@ let alarmRang = false;
 let enableTimerButton = true;
 let enableInstructions = false;
 
+let scrambleElement = document.getElementById('scramble');
 let resetButton =  document.getElementById('reset');
 let guessButton = document.getElementById('check');
 let instructionsButton = document.getElementById('instructions');
@@ -67,38 +65,14 @@ let guess4Display = document.getElementById('guess4');
 // endOfGame returns true if the game and leveling up is over.
 //   otherwise false
 endOfGame = () => {
-    if ((rounds >= 3) && (wins >= 3)) { 
-        return (true);
-    } else { 
-        return (false);
-    }
+    return((rounds >= 3) && (wins >= 3) ? true : false);
 
-}
-
-// gameCounter returns the count of the wins and losses played
-//    Not used.
-gameCounter = () => {
-    return(wins + lose);
 }
 
 // levelUp returns true you can move on to the next round.  Otherwise
 //    it returns false
 levelUp = () => {
-    console.log('LevelUp')
-    if (wins >= 3) {
-        return(true);
-    } else {
-        return(false);
-    }
-}
-
-// lastRound returns true if you are on the last round
-lastRound = () => {
-    if (rounds === 3) {
-        return(true);
-    } else {
-        return(false);
-    }
+    return(wins >= 3 ? true : false);
 }
 
 // resetOneGuess will retrieve one guess based on the index and
@@ -121,35 +95,34 @@ hideGuess = () => {
     } else if (rounds === 2) {
         resetOneGuess(4);
     }
-
 }
 
 // setNextRound will remove a guess based on the rounds played and
 //   increment to the next round
 setNextRound = () => {
-    if ((rounds === 1) && (wins >= 3)) {
-        // set up for next round.
-        hideGuess(rounds);
-        rounds++;
-        setGameRoundsDisplay();
-    } else if ((rounds == 2) && (wins >= 3)) {
-        hideGuess(rounds);
-        rounds++
-        setGameRoundsDisplay();
-    }   
+    if (((rounds === 1) && (wins >= 3)) ||
+        ((rounds === 2) && (wins >= 3))) {
+            hideGuess(rounds);
+            rounds++
+            setGameRoundsDisplay();           
+    }
 }
 
-// checkInLevelUp returns a true if you are in a level up 
+// checkInLevelUp returns a true if you are in a level up condition or
+//   a false otherwise
 checkInLevelUp = () => {
-    if (rounds > 1) {
-        return(true)
-     } else {
-        return (false);
-     }
+    // if (rounds > 1) {
+    //     return(true)
+    //  } else {
+    //     return (false);
+    //  }
+    return((rounds > 1) ? true: false)
 }
 
+// resetTimer will reset the display for the timer and depending on
+//   whether the button has been previously disabled will renable the
+//   button.
 resetTimer = () => {
-    console.log("resetTimer:");
     clockDisplay.innerText = " ";
     clockDisplay.style.color = "black";
 
@@ -161,29 +134,31 @@ resetTimer = () => {
     }
 }
 
+// Resetting the game display for each area
 resetGameLoss = () => { loserDisplay.innerHTML = " "; }
 resetGameWins = () => { winnerDisplay.innerHTML = " "; }
 resetGameStatus = () => { answerDisplay.innerHTML = " "; }
 hideInstructions = () => { instructionsDisplay.style.display = "none"; }
 unhideInstructions = () => { instructionsDisplay.style.display = "block"; }
 
+// unhideGuesses will retrieve all divs matching the id guess
+//   and depending on the round will unhide the ones for the display
+//   round 1 all 5 guesses display, round 2 guess4 does not display
+//   round 3 guess3 does not display
 unhideGuesses = () => {
     // Retrieve all the guess elements
     //   This will match on the starting guess in the id
     let allGuesses = document.querySelectorAll('[id^="guess"]');
-    // console.log("All Guesses:", allGuesses);
 
     if (checkInLevelUp()) {
         // round 2 len is 3 round 3 len is 2
         let len = 5 - rounds;
-
         for(let i = 0; i <= len; i++) {
             allGuesses[i].style.display = "grid";
         }
-
     } else {
         // // Go thru all the children of the guess elements and reset to empty.
-        for(let i=0, len = allGuesses.length ; i < len; ++i){
+        for(let i=0, len = allGuesses.length ; i < len; ++i) {
            allGuesses[i].style.display = "grid";
         }
     }
@@ -195,20 +170,20 @@ hideGuesses = () => {
     // Retrieve all the guess elements
     //   This will match on the starting guess in the id
     let allGuesses = document.querySelectorAll('[id^="guess"]');
-    // console.log("All Guesses:", allGuesses);
 
     // // Go thru the children of the guess elements and reset to empty.
     for(let i=0, len = allGuesses.length ; i < len; ++i){
         allGuesses[i].style.display = "none";
     }
-
 }
 
+// resetGuesses will retrieve all div guesses and then loop through the
+//   children (letters) and for each letter will reset the text and color
+//   for the display
 resetGuesses = () => {
     // Retrieve all the guess elements
     //   This will match on the starting guess in the id
     let allGuesses = document.querySelectorAll('[id^="guess"]');
-    console.log("All Guesses:", allGuesses);
 
     // // Go thru the children of the guess elements and reset to empty.
     for(let i=0, len = allGuesses.length ; i < len; ++i){
@@ -220,24 +195,30 @@ resetGuesses = () => {
     }
 }
 
+// resetDisplayScramble will loop through the scrambled letters and reset
+//   the text for the display
 resetDisplayScramble = () => {
     for(let i=0, len = scrambleElement.childElementCount ; i < len; ++i){
         scrambleElement.children[i].innerText = " ";
     }
 }
 
+// setNewWord will randomly pick a word from the dictionary and 
+//   then prepare it for displaying in the scrambled display.
 setNewWord = () => {
     originalWord = randomWord(dictionary);
     originalWordArray = originalWord.toUpperCase().split("");
     solution = originalWordArray.toString();
-    console.log("ORIGINAL WORD ARRAY: ", originalWordArray);
-    
+    // console.log("ORIGINAL WORD ARRAY: ", originalWordArray); 
     let s = scrambleWord(originalWord);
-    console.log("Scramble: ", s);
+    // console.log("Scramble: ", s);
     displayScramble(s);
 }
 
 // Clears an Alarm and Time period that is currently activated.
+//   There is a difference between a Timer being set and the actual
+//   timer completing thereby an alarm is going off.  You can have a
+//   timer that has been set and never completed.
 resetAlarm = () => {
     if (alarm !== "") {
         clearTimeout(alarm);
@@ -246,7 +227,7 @@ resetAlarm = () => {
     alarmRang = false;
 }
 
-//  Resets the game board Round
+//  resetGameBoardRound resets the game board Round for a new display
 resetGameBoardRound = () => {
         wins =0;
         lose = 0; 
@@ -256,7 +237,7 @@ resetGameBoardRound = () => {
         setGameRoundsDisplay();
 }
 
-// setEndGameDisplay will set answer_display to game over
+// setEndGameDisplay will set the answer_display to game over
 setEndGameDisplay = () => {
     answerDisplay.innerHTML = '<span style="color: red">Winner! GAME OVER</span>';
 }
@@ -265,8 +246,6 @@ setEndGameDisplay = () => {
 //   It will also remove any text created from prior running the game.
 //   It will also redisplay a new scrambled word.
 resetGame = () => {
-
-    console.log("resetGame");
 
     guess = 1;
     solution = "";
@@ -311,6 +290,8 @@ resetGame = () => {
     enableScramble();
 }
 
+// setGameRoundsDisplay will set the rounds display with number of rounds or
+//  levels
 setGameRoundsDisplay = () => {
     roundsDisplay.style.color = 'red';
     roundsDisplay.innerHTML = `${rounds}`;  
@@ -336,6 +317,7 @@ updateGameLoss = () => {
         disableTimerButton();
         resetAlarm();
     } else {
+        // Check for ending conditions
         if ((rounds === 1 && (guess === 5)) ||
             (rounds === 2 && (guess === 4)) ||
             (rounds === 3 && (guess === 3))) {
@@ -372,7 +354,7 @@ updateGameWins = () => {
 }
 
 // updateGameStatus will update the answer display depending on whether
-//   the a player has won or not.
+//   a player has won or not.
 updateGameStatus = (winner) => {
 
     if (winner) {
@@ -392,7 +374,6 @@ updateGameStatus = (winner) => {
 
     } else {
         answerDisplay.style.color = 'white';
-        console.log("updateGameStatus: ");
         if (winner) {
             updateGameWins();
             disableGuess();
@@ -407,19 +388,15 @@ updateGameStatus = (winner) => {
 // pickLetter will get the button letter information and then find 
 //  the correct empty guess row circle to place the letter in.
 pickLetter = (event) => {
-    console.log("pickLetter");
     let letter = event.target.innerText;
-    console.log("pickLetter: letter:", letter);
     let firstGuess = document.getElementById(`guess${guess}`);
     for(let i=0, len = firstGuess.childElementCount ; i < len; ++i){
         if (firstGuess.children[i].innerText === "") {
-            console.log(firstGuess.children[i]);
             firstGuess.children[i].innerText = letter;
             break;
         }
     }
 }
-
 
 // disableScramble will remove click events to the children of
 //   the div scramble output.
@@ -442,7 +419,6 @@ enableScramble = () => {
 //   the letter array.
 displayScramble = (letterArray) => {
     for(let i=0, len = scrambleElement.childElementCount ; i < len; ++i){
-        console.log(scrambleElement.children[i]);
         scrambleElement.children[i].innerText = letterArray[i];
     }
     
@@ -452,7 +428,7 @@ displayScramble = (letterArray) => {
 //   word.
 randomWord = (dictionaryArray) => {
   let index = Math.floor(Math.random() * dictionaryArray.length + 1) - 1;  
-  console.log("Random Word: ", dictionaryArray[index].word);
+//   console.log("Random Word: ", dictionaryArray[index].word);
   return dictionaryArray[index].word
 }
 
@@ -462,28 +438,31 @@ randomWord = (dictionaryArray) => {
 scrambleWord = (word) => {
     // Take the word and create an array with letters
     let letters=word.toUpperCase().split("");
-    console.log(letters);
     
     let currentIndex = letters.length,  randomIndex;
 
     // While there are elements to shuffle
     while (currentIndex != 0) {
+        // Pick a remaining element...
+        randomIndex = Math.floor(Math.random() * currentIndex);
+        currentIndex -= 1;
 
-    // Pick a remaining element...
-    randomIndex = Math.floor(Math.random() * currentIndex);
-    currentIndex -= 1;
-
-    // And swap it with the current element.
-    [letters[currentIndex], letters[randomIndex]] = [
-      letters[randomIndex], letters[currentIndex]];
-  }
-
-  holdWord = letters.join(" ");
-  return (letters);
+        // And swap it with the current element.
+        [letters[currentIndex], letters[randomIndex]] = [
+            letters[randomIndex], letters[currentIndex]];
+    }
+    holdWord = letters.join(" ");
+    return (letters);
 }
 
+// guessWord is called via the guess button to get the guess and the
+//   letters and to compare the word guessed with the original letters
+//   It does this letter by letter and any matching letter is set to 
+//   green.
+//   It then checks to see if the word is a MATCH or NOT a Match with 
+//   the original word.   A MATCH means you are done guessing and a
+//   winner and Not a Match means you are still guessing.
 guessWord = () => {
-    console.log("guessWord: ");
 
     let guessRowArray = [];
 
@@ -491,44 +470,29 @@ guessWord = () => {
     //  letter and change the circle to green if the letter is correct.
 
     let guessRow = document.getElementById(`guess${guess}`);
-    console.log("guessWord: guessRow: ",guessRow);
-    // let guessChildren = guessRow.childNodes;
-    // console.log(guessChildren);
     
     // Go thru the divs to create an array to check for a string match.
     // While doing this also update which letters are in the correct position
     //   and set the color for the circle.
     for (let i=0, len = guessRow.childElementCount ; i < len; ++i){
         guessRowArray.push(guessRow.children[i].innerText);
-
-        console.log("Comparing: ", guessRow.children[i].innerText);
-        console.log("    to: ", originalWordArray[i]);
         if (guessRow.children[i].innerText ===
             originalWordArray[i]) {
             guessRow.children[i].style.backgroundColor = 'green';
         }
-
     }
-
-    console.log("Row Array: ", guessRowArray);
-    // let newWord = guessRowArray.join("");
-    // console.log("New Word to Check: ", newWord);
-    // console.log("Original word array ", );
 
     // Check to see if you have a Match.
     if (guessRowArray.toString() === solution) {
-        console.log("You MATCHED!");
-
+        // console.log("You MATCHED!");
         updateGameStatus(true);
-
     } else {
-        console.log("NOT A MATCH");
+        // console.log("NOT A MATCH");
         // Need to see which letters are in the correct position
-
         updateGameStatus(false);
     }
-
-    // Update to the next guess
+    // Update to the next guess - it doesn't matter if you won. 
+    //   the guess button will be deactivated.
     guess++;
 }
 
@@ -540,8 +504,10 @@ disableGuess = () => { guessButton.removeEventListener("click", guessWord);}
 //   Used during intialization and during a reset.
 enableGuess = () => { guessButton.addEventListener("click", guessWord); }
 
+// displayInstructions will display the hidden instructions.
+//   It can be toggled on or off by clicking the same button at any
+//   point in the game without effecting the game board.
 displayInstructions = () => {
-    console.log("displayInstructions: ");
 
     // if instructions are already showing then hide them again.
     if (enableInstructions) {
@@ -566,9 +532,11 @@ disableTimerButton = () => {
     enableTimerButton = false;
 }
 
+// startTimer will start a timer at 1 minute and then display the countdown 
+//  every second in the timer display area.  Once the timer goes off
+//  an alarm rang is enabled so we know the difference between the timer
+//  event finishing and still counting down.
 startTimer = () => {
-    console.log("startTimer : ");
-
     // Disable the Timer button from being called again.
     disableTimerButton();
 
@@ -582,27 +550,25 @@ startTimer = () => {
         if( seconds > 0 ) {
             alarm = setTimeout(tick, 1000);
         } else {
-            console.log("TIMER WENT OFF");
             answerDisplay.innerText = 'Timed out: You LOSE!';
             alarmRang = true;
             updateGameLoss();
         }
     }
-
     tick();
 }
 
-// setup the Scrambled Word and formats for comparisons.
+
+// Setup of the Initial game when loaded. Randomly gets a word
+//  from the dictionary and sets it up for the scrambled display area.
 let originalWord = randomWord(dictionary);
 let originalWordArray = originalWord.toUpperCase().split("");
 solution = originalWordArray.toString();
-console.log("ORIGINAL WORD ARRAY: ", originalWordArray);
-
 let s = scrambleWord(originalWord);
-console.log("Scramble: ", s);
+// console.log("Scramble: ", s);
 
-// Setup the initial Scrambled word and enable each letter to 
-//   be clicked.
+// Display the scrambled word, enable each letter to be clicked and
+//   initialize the level or rounds display
 displayScramble(s);
 enableScramble();
 setGameRoundsDisplay();
