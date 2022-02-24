@@ -35,7 +35,7 @@ const dictionaryData = [{"word":"aahed"},{"word":"aalii"},{"word":"aargh"},{"wor
 
 
 const dictionary = JSON.parse(JSON.stringify(dictionaryData));
-console.log(dictionary[0].word)
+console.log(dictionary[0].word);
 
 let scrambleElement = document.getElementById('scramble');
 console.log(scrambleElement);
@@ -59,6 +59,93 @@ let winnerDisplay = document.getElementById('winner_display');
 let loserDisplay = document.getElementById('loser_display');
 let roundsDisplay = document.getElementById('rounds_display');
 let instructionsDisplay = document.getElementById("rules_display");
+let guess5Display = document.getElementById('guess5');
+let guess4Display = document.getElementById('guess4');
+
+
+// endOfGame returns true if the game and leveling up is over.
+//   otherwise false
+endOfGame = () => {
+    if ((rounds >= 3) && (wins >= 3)) { 
+        return (true);
+    } else { 
+        return (false);
+    }
+
+}
+
+// gameCounter returns the count of the wins and losses played
+//    Not used.
+gameCounter = () => {
+    return(wins + lose);
+}
+
+// levelUp returns true you can move on to the next round.  Otherwise
+//    it returns false
+levelUp = () => {
+    console.log('LevelUp')
+    if (wins >= 3) {
+        return(true);
+    } else {
+        return(false);
+    }
+}
+
+// lastRound returns true if you are on the last round
+lastRound = () => {
+    if (rounds === 3) {
+        return(true);
+    } else {
+        return(false);
+    }
+}
+
+// resetOneGuess will retrieve one guess based on the index and
+//   then reset all the children circles back to white. It will 
+//   set the display to be hidden
+resetOneGuess = (index) => {
+    let oneGuess = document.getElementById(`guess${index}`);
+    for (let j = 0, clen = oneGuess.children.length; j < clen; j++) {
+        oneGuess.children[j].innerText = " ";
+        oneGuess.children[j].style.backgroundColor = 'white';
+    }
+    oneGuess.style.display = "none";
+}
+
+// hideGuess will remove a guess from the display depending on the round
+//  round 1 will hide guess5  round 2 will hide guess4
+hideGuess = () => {
+    if (rounds === 1) {
+        resetOneGuess(5);
+    } else if (rounds === 2) {
+        resetOneGuess(4);
+    }
+
+}
+
+// setNextRound will remove a guess based on the rounds played and
+//   increment to the next round
+setNextRound = () => {
+    if ((rounds === 1) && (wins >= 3)) {
+        // set up for next round.
+        hideGuess(rounds);
+        rounds++;
+        setGameRoundsDisplay();
+    } else if ((rounds == 2) && (wins >= 3)) {
+        hideGuess(rounds);
+        rounds++
+        setGameRoundsDisplay();
+    }   
+}
+
+// checkInLevelUp returns a true if you are in a level up 
+checkInLevelUp = () => {
+    if (rounds > 1) {
+        return(true)
+     } else {
+        return (false);
+     }
+}
 
 resetTimer = () => {
     console.log("resetTimer:");
@@ -72,30 +159,11 @@ resetTimer = () => {
     }
 }
 
-resetGameLoss = () => {
-    console.log("resetGameLoss:");
-    loserDisplay.innerHTML = " ";
-}
-
-resetGameWins = () => {
-    console.log("resetGameWins:");
-    winnerDisplay.innerHTML = " ";
-
-}
-
-resetGameStatus = () => {
-    console.log("resetGameStatus");
-    answerDisplay.innerHTML = " ";
-}
-
-hideInstructions = () => {
-    instructionsDisplay.style.display = "none";
-}
-
-unhideInstructions = () => {
-    instructionsDisplay.style.display = "block";
-
-}
+resetGameLoss = () => { loserDisplay.innerHTML = " "; }
+resetGameWins = () => { winnerDisplay.innerHTML = " "; }
+resetGameStatus = () => { answerDisplay.innerHTML = " "; }
+hideInstructions = () => { instructionsDisplay.style.display = "none"; }
+unhideInstructions = () => { instructionsDisplay.style.display = "block"; }
 
 unhideGuesses = () => {
     // Retrieve all the guess elements
@@ -103,12 +171,24 @@ unhideGuesses = () => {
     let allGuesses = document.querySelectorAll('[id^="guess"]');
     // console.log("All Guesses:", allGuesses);
 
-    // // Go thru the children of the guess elements and reset to empty.
-    for(let i=0, len = allGuesses.length ; i < len; ++i){
-        allGuesses[i].style.display = "grid";
+    if (checkInLevelUp()) {
+        // round 2 len is 3 round 3 len is 2
+        let len = 5 - rounds;
+
+        for(let i = 0; i <= len; i++) {
+            allGuesses[i].style.display = "grid";
+        }
+
+    } else {
+        // // Go thru all the children of the guess elements and reset to empty.
+        for(let i=0, len = allGuesses.length ; i < len; ++i){
+           allGuesses[i].style.display = "grid";
+        }
     }
 }
 
+// hideGuesses will retrieve all guesses and for each one will set
+//   the display to be hidden
 hideGuesses = () => {
     // Retrieve all the guess elements
     //   This will match on the starting guess in the id
@@ -140,7 +220,6 @@ resetGuesses = () => {
 
 resetDisplayScramble = () => {
     for(let i=0, len = scrambleElement.childElementCount ; i < len; ++i){
-        console.log(scrambleElement.children[i]);
         scrambleElement.children[i].innerText = " ";
     }
 }
@@ -164,6 +243,21 @@ resetAlarm = () => {
     }
 }
 
+//  Resets the game board Round
+resetGameBoardRound = () => {
+        wins =0;
+        lose = 0; 
+        rounds = 1;
+        resetGameWins();
+        resetGameLoss();
+        setGameRoundsDisplay();
+}
+
+// setEndGameDisplay will set answer_display to game over
+setEndGameDisplay = () => {
+    answerDisplay.innerHTML = '<span style="color: red">Winner! GAME OVER</span>';
+}
+
 // resetNewGame will initialize all the variables for the gameboard
 //   It will also remove any text created from prior running the game.
 //   It will also redisplay a new scrambled word.
@@ -171,8 +265,6 @@ resetGame = () => {
 
     console.log("resetGame");
 
-    // wins = 0;
-    // lose = 0;
     guess = 1;
     solution = "";
     // Check if instructions are displayed and hide them
@@ -182,8 +274,22 @@ resetGame = () => {
         unhideGuesses();
     }
 
-    // resetGameLoss();
-    // resetGameWins();
+    // Check if at end of the game to reset board and round
+    if (endOfGame()) {
+        resetGameBoardRound();
+        unhideGuesses();
+    } else {
+        setNextRound();
+        // Not the end of the game.  Have to check which round is 
+        //   next and set the board up for that round.
+
+        if (levelUp()) {
+            wins =0;
+            lose = 0; 
+            resetGameWins();
+            resetGameLoss();
+        }
+    }   
 
     // Reset the Game Display
     resetGameStatus();
@@ -202,7 +308,7 @@ resetGame = () => {
     enableScramble();
 }
 
-updateGameRounds = () => {
+setGameRoundsDisplay = () => {
     roundsDisplay.style.color = 'red';
     roundsDisplay.innerHTML = `${rounds}`;  
 }
@@ -211,46 +317,65 @@ updateGameRounds = () => {
 //   5 times and there is no match.  It will display the LOSE message in
 //   the loss display area.
 updateGameLoss = () => {
-    if (guess === 5) {
+    if ((rounds === 1 && (guess === 5)) ||
+        (rounds === 2 && (guess === 4)) ||
+        (rounds === 3 && (guess === 3))) {
        lose++; 
        resetAlarm();
+       answerDisplay.innerHTML = `<span style="color: red">You LOSE!</span> ${originalWord.toUpperCase()}`;
        loserDisplay.style.color = 'white';
        loserDisplay.innerHTML = `<span style="color: red">LOSE:</span> ${lose}`;
        disableGuess();
        disableScramble();
+    } else {
+        answerDisplay.innerText = 'Guess Again'; 
     }
+}
+
+// updateGameWinsDisplay updates the winner display area
+updateGameWinsDisplay = () => {
+    winnerDisplay.style.color = 'white';
+    winnerDisplay.innerHTML = `<span style="color: red">WINS:</span> ${wins}`;
 }
 
 // updateGameWins will update the wins of the game and also display the wins
 //   message in the win display area.
 updateGameWins = () => {
-    wins++;
     resetAlarm();
-    winnerDisplay.style.color = 'white';
-    winnerDisplay.innerHTML = `<span style="color: red">WINS:</span> ${wins}`;
+
+    // answerDisplay.innerText = `${originalWord.toUpperCase()}`;
+    answerDisplay.innerHTML = `<span style="color: red">YOU WON!</span>  ${originalWord.toUpperCase()}`;
+    updateGameWinsDisplay();
 }
 
 // updateGameStatus will update the answer display depending on whether
 //   the a player has won or not.
 updateGameStatus = (winner) => {
 
-    answerDisplay.style.color = 'white';
-    console.log("updateGameStatus: ");
     if (winner) {
-        // answerDisplay.innerText = `${originalWord.toUpperCase()}`;
-        answerDisplay.innerHTML = `<span style="color: red">YOU WON!</span>  ${originalWord.toUpperCase()}`;
+        wins++;
+    }
 
-        updateGameWins();
+    // Check if you are at the End of the Game.
+    if (endOfGame()) {
+        setEndGameDisplay();
+        updateGameWinsDisplay();
+
+
+        // Disable guessing and scramble buttons
         disableGuess();
         disableScramble();
 
     } else {
-        if (guess !== 5) {
-            answerDisplay.innerText = 'Guess Again';
+        answerDisplay.style.color = 'white';
+        console.log("updateGameStatus: ");
+        if (winner) {
+            updateGameWins();
+            disableGuess();
+            disableScramble();
         } else {
-            answerDisplay.innerText = 'You LOSE!';
+            updateGameLoss();
         }
-        updateGameLoss();
     }
 }
 
@@ -384,15 +509,11 @@ guessWord = () => {
 
 // disableGuess will remove the ability to click on the guess button.
 //   Used after a win or lose
-disableGuess = () => {
-    guessButton.removeEventListener("click", guessWord);
-}
+disableGuess = () => { guessButton.removeEventListener("click", guessWord);}
 
 // enable Guess will add the ability to click on the guess button.
 //   Used during intialization and during a reset.
-enableGuess = () => {
-    guessButton.addEventListener("click", guessWord);
-}
+enableGuess = () => { guessButton.addEventListener("click", guessWord); }
 
 displayInstructions = () => {
     console.log("displayInstructions: ");
@@ -454,7 +575,7 @@ console.log("Scramble: ", s);
 //   be clicked.
 displayScramble(s);
 enableScramble();
-updateGameRounds();
+setGameRoundsDisplay();
 
 // Add Listening Events for all the Buttons
 resetButton.addEventListener("click", resetGame);
