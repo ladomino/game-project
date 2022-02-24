@@ -6,32 +6,47 @@ A player's task is to guess a word where the letters are scrambled.
 At each step of the guess process the player is told whether a letter is
 in a correct position or not.
 
-A player may setup a Timer to guess the word within 1 minute.
+A play who has three wins will level up to the next level and they
+will have 1 less guess.  There are three levels.  If a player wins
+3 games at the third level the game is over.
+
+A player may setup a Timer to guess the word within 1 minute to make
+it more challenging.
 
 # Game Rules
 
 Unscramble the letters to find the word by selecting a letter to play
 and checking it against the actual word.  For each guess you are decoding
 the word by being told if the letter is in the correct position or not.
-Green indicate the right position.
+Green indicates the right position.
 
 # Instructions
-- Choose to have a Timer set or not.
 - Unscramble the letters by selecting the letter for each position based off
 of feedback provided for each letter.
-- Guess within the Time period or in 10 guesses.
+- Guess within the Time period or in 5 guesses in level 1, 4 guesses in level 2 and 3 guesses in level 3.
+- Choose to have a Timer set or not.  The Timer is set to 1 minute. If the Time has expired and the player has not finished the player loses. You cannot toggle the Timer.
+- There is no limit to the number of losses to stay at a level. You level up
+by having three wins.
+- When you reach level 3 and have 3 wins the game is over.
+
 
 # How to Play
-- Set a Timer or not.
-- Select the Letter for the first Letter Guess. Select the Letter for the 
-second Letter guess until you've completed your Guess.
-- Select the Guess button.
-- Gray means the letter is not in the correct position.  Green means the
-letter is in the correct position.
-- When you match the letters correctly you've won.
-- You can Reset the board at any time.
-- If the timer is set and you have not unscrambled the word, you have lost.
+- Select a Letter for the first Letter of a guess until you have selected
+five letters making up a word guess.
+- Select the Guess Button to see which letters are in the correct position.
+- Green means the letter is in the correct position and white means the letter is not in the correct position.
+- When all five letters are green, you've matched the word and you have a win.
+- If you run out of guesses and have not matched the word, you lose.
+- If you dislike a word you can select the Reset to have a word displayed. This does not effect your wins or losses.
+- After 3 wins you will be leveled up to the next round.  At round 2 there are only 4 guesses to match a word.  At round 3 there are only 3 guesses to match a word.
+- When you have reached Level 3 and matched 3 words - the game is over.
+- You may Toggle the Instructions at any point in the game to understand the
+rules.
 - The solution will be presented whether you win or lose.
+- To add a challenge you can select Timer to enable a 1 minute Timer to see
+if you can finish guessing within that time period.  If you do not guess the
+word in that time period, you automatically lose.   You may not Toggle the
+timer once it has been set.
 
 # Wire Frames
 
