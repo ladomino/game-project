@@ -46,6 +46,7 @@ let wins = 0;
 let lose = 0;
 let solution = "";
 let alarm = "";
+let alarmRang = false;
 let enableTimerButton = true;
 let enableInstructions = false;
 
@@ -241,6 +242,7 @@ resetAlarm = () => {
         clearTimeout(alarm);
         alarm = "";
     }
+    alarmRang = false;
 }
 
 //  Resets the game board Round
@@ -313,24 +315,42 @@ setGameRoundsDisplay = () => {
     roundsDisplay.innerHTML = `${rounds}`;  
 }
 
+// updateGameLoseDisplay updates the loser display area with losses
+updateGameLoseDisplay = () => {
+    loserDisplay.style.color = 'white';
+    loserDisplay.innerHTML = `<span style="color: red">LOSE:</span> ${lose}`;    
+}
+
 // updateGameLoss will update the loss of the game once you have guessed
 //   5 times and there is no match.  It will display the LOSE message in
 //   the loss display area.
 updateGameLoss = () => {
-    if ((rounds === 1 && (guess === 5)) ||
-        (rounds === 2 && (guess === 4)) ||
-        (rounds === 3 && (guess === 3))) {
-       lose++; 
-       resetAlarm();
-       answerDisplay.innerHTML = `<span style="color: red">You LOSE!</span> ${originalWord.toUpperCase()}`;
-       loserDisplay.style.color = 'white';
-       loserDisplay.innerHTML = `<span style="color: red">LOSE:</span> ${lose}`;
-       disableGuess();
-       disableScramble();
+
+    if (alarmRang) {
+        answerDisplay.innerText = 'Timed out: You LOSE!';
+        lose++;
+        updateGameLoseDisplay();
+        disableGuess();
+        disableScramble();
     } else {
-        answerDisplay.innerText = 'Guess Again'; 
+        if ((rounds === 1 && (guess === 5)) ||
+            (rounds === 2 && (guess === 4)) ||
+            (rounds === 3 && (guess === 3))) {
+            lose++; 
+            answerDisplay.innerHTML = `<span style="color: red">You LOSE!</span> ${originalWord.toUpperCase()}`;
+            updateGameLoseDisplay();
+            disableGuess();
+            disableScramble();
+
+        } else {
+            // When in guessing mode - there is no winner or loser
+            //   so no updates of Game display or disabling of buttons.
+            answerDisplay.innerText = 'Guess Again'; 
+        }
     }
+    resetAlarm();
 }
+
 
 // updateGameWinsDisplay updates the winner display area
 updateGameWinsDisplay = () => {
@@ -552,9 +572,9 @@ startTimer = () => {
         if( seconds > 0 ) {
             alarm = setTimeout(tick, 1000);
         } else {
+            console.log("TIMER WENT OFF");
             answerDisplay.innerText = 'Timed out: You LOSE!';
-            // You lose so set to end of your guesses to reinitialize.
-            guess = 5;
+            alarmRang = true;
             updateGameLoss();
         }
     }
