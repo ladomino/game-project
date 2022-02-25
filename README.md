@@ -41,11 +41,11 @@ five letters making up a word guess.
 - When you have reached Level 3 and matched 3 words - the game is over.
 - You may Toggle the Instructions at any point in the game to understand the
 rules.
-- The solution will be presented whether you win or lose.
-- It is possible to keep losing at any of the rounds and not leveling up.
+- The solution will be presented when you win, lose or are timed out.
+- It is possible to keep losing in any of the rounds and not level up.
 - To add a challenge you can select Timer to enable a 1 minute Timer to see
 if you can finish guessing within that time period.  If you do not guess the
-word in that time period, you automatically lose and you are presented with the word.   
+word in that time period, you automatically lose and you are presented with the word.   If you win or lose in the Time period the timer will stop to show you how long it took.
 - You may not Toggle the timer once it has been set.
 - Reset will always deactivate the Timer and display a new scrambled word for guessing.
 
