@@ -58,8 +58,6 @@ let winnerDisplay = document.getElementById('winner_display');
 let loserDisplay = document.getElementById('loser_display');
 let roundsDisplay = document.getElementById('rounds_display');
 let instructionsDisplay = document.getElementById("rules_display");
-let guess5Display = document.getElementById('guess5');
-let guess4Display = document.getElementById('guess4');
 
 
 // endOfGame returns true if the game and leveling up is over.
@@ -111,11 +109,6 @@ setNextRound = () => {
 // checkInLevelUp returns a true if you are in a level up condition or
 //   a false otherwise
 checkInLevelUp = () => {
-    // if (rounds > 1) {
-    //     return(true)
-    //  } else {
-    //     return (false);
-    //  }
     return((rounds > 1) ? true: false)
 }
 
@@ -149,7 +142,6 @@ unhideGuesses = () => {
     // Retrieve all the guess elements
     //   This will match on the starting guess in the id
     let allGuesses = document.querySelectorAll('[id^="guess"]');
-
     if (checkInLevelUp()) {
         // round 2 len is 3 round 3 len is 2
         let len = 5 - rounds;
@@ -170,7 +162,6 @@ hideGuesses = () => {
     // Retrieve all the guess elements
     //   This will match on the starting guess in the id
     let allGuesses = document.querySelectorAll('[id^="guess"]');
-
     // // Go thru the children of the guess elements and reset to empty.
     for(let i=0, len = allGuesses.length ; i < len; ++i){
         allGuesses[i].style.display = "none";
@@ -290,6 +281,15 @@ resetGame = () => {
     enableScramble();
 }
 
+// disableGameBoardButtons will disallow a user from clicking on guess,
+//   scramble letters and timer buttons.  Used after win, lose and timer
+//   up situation.
+disableGameBoardButtons = () => {
+    disableGuess();
+    disableScramble();
+    disableTimerButton();
+}
+
 // setGameRoundsDisplay will set the rounds display with number of rounds or
 //  levels
 setGameRoundsDisplay = () => {
@@ -303,40 +303,37 @@ updateGameLoseDisplay = () => {
     loserDisplay.innerHTML = `<span style="color: red">LOSE:</span> ${lose}`;    
 }
 
-// updateGameLoss will update the loss of the game once you have guessed
-//   5 times and there is no match.  It will display the LOSE message in
-//   the loss display area.
+// updateGameLoss is the opposite of a win.  You have one of three events
+//   happening: the timer alarm has gone off and you lose, you have reached
+//   the end guess of each round or you are still guessing and you have not
+//   lost yet.
 updateGameLoss = () => {
+
+    answerDisplay.style.color = 'white';
 
     if (alarmRang) {
         answerDisplay.innerHTML= `<span style="color: red">TIMES UP!</span> ${originalWord.toUpperCase()}`;
         lose++;
-        updateGameLoseDisplay();
-        disableGuess();
-        disableScramble();
-        disableTimerButton();
         resetAlarm();
-    } else {
-        // Check for ending conditions
-        if ((rounds === 1 && (guess === 5)) ||
+        updateGameLoseDisplay();
+        disableGameBoardButtons();
+    } else if ((rounds === 1 && (guess === 5)) ||
             (rounds === 2 && (guess === 4)) ||
             (rounds === 3 && (guess === 3))) {
-            lose++; 
-            answerDisplay.innerHTML = `<span style="color: red">You LOSE!</span> ${originalWord.toUpperCase()}`;
-            resetAlarm();
-            updateGameLoseDisplay();
-            disableGuess();
-            disableScramble();
-            disableTimerButton();
+        // Check for ending conditions
+        lose++; 
+        answerDisplay.innerHTML = `<span style="color: red">You LOSE!</span> ${originalWord.toUpperCase()}`;
+        resetAlarm();
+        updateGameLoseDisplay();
+        disableGameBoardButtons();
 
-        } else {
-            // When in guessing mode - there is no winner or loser
-            //   so no updates of Game display or disabling of buttons.
-            answerDisplay.innerText = 'Guess Again'; 
-        }
+    } else {
+        // When in guessing mode - there is no winner or loser
+        //   so no updates of Game display or disabling of buttons.
+        //   Just update answer display.
+        answerDisplay.innerText = 'Guess Again'; 
     }
 }
-
 
 // updateGameWinsDisplay updates the winner display area
 updateGameWinsDisplay = () => {
@@ -349,7 +346,7 @@ updateGameWinsDisplay = () => {
 updateGameWins = () => {
     resetAlarm();
 
-    // answerDisplay.innerText = `${originalWord.toUpperCase()}`;
+    answerDisplay.style.color = 'white';
     answerDisplay.innerHTML = `<span style="color: red">YOU WON!</span>  ${originalWord.toUpperCase()}`;
     updateGameWinsDisplay();
 }
@@ -364,25 +361,16 @@ updateGameStatus = (winner) => {
 
     // Check if you are at the End of the Game.
     if (endOfGame()) {
+        // update end of game display
         setEndGameDisplay();
         updateGameWinsDisplay();
-
-
-        // Disable guessing, scramble and timer buttons
-        disableGuess();
-        disableScramble();
-        disableTimerButton();
-
+        // Disable guessing, scramble and timer buttons - Game over
+        disableGameBoardButtons();
+    } else if (winner) {
+        updateGameWins();
+        disableGameBoardButtons();
     } else {
-        answerDisplay.style.color = 'white';
-        if (winner) {
-            updateGameWins();
-            disableGuess();
-            disableScramble();
-            disableTimerButton();
-        } else {
-            updateGameLoss();
-        }
+        updateGameLoss();
     }
 }
 
