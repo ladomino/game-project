@@ -77,20 +77,20 @@ word in that time period, you automatically lose and you are presented with the 
 
 ## Rules
 
-[! rules image](FinalRules.png)
+![rules image](FinalRules.png)
 
 ## Player Wins
 
-[! wins image](PlayerWins.png)
+![wins image](PlayerWins.png)
 
 ## Level Up Round 2
 
-[! level2 image](LevelUpRound2.png)
+![level2 image](LevelUpRound2.png)
 
 ## Level Up Round 3
 
-[! level3 image](LevelUpRound3.png)
+![level3 image](LevelUpRound3.png)
 
 ## Times Up
 
-[! timesup image](TimesUp.png)
+![timesup image](TimesUp.png)
