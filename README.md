@@ -17,8 +17,7 @@ it more challenging.
 
 Unscramble the letters to find the word by selecting a letter to play
 and checking it against the actual word.  For each guess you are decoding
-the word by being told if the letter is in the correct position or not.
-Green indicates the right position.
+the word by being told if the letter is in the correct position by being highlighted.
 
 # Instructions
 - Unscramble the letters by selecting the letter for each position based off
@@ -34,19 +33,21 @@ by having three wins.
 - Select a Letter for the first Letter of a guess until you have selected
 five letters making up a word guess.
 - Select the Guess Button to see which letters are in the correct position.
-- Green means the letter is in the correct position and white means the letter is not in the correct position.
-- When all five letters are green, you've matched the word and you have a win.
+- A highlighted letter means it is in the correct position. White indicates the letter is not in the correct position.
+- When all five letters are highlighted, you've matched the word and you have a win.
 - If you run out of guesses and have not matched the word, you lose.
-- If you dislike a word you can select the Reset to have a word displayed. This does not effect your wins or losses.
-- After 3 wins you will be leveled up to the next round.  At round 2 there are only 4 guesses to match a word.  At round 3 there are only 3 guesses to match a word.
+- If you dislike a word you can select the Reset to have a new scrambled word displayed. This does not effect your wins or losses.
+- After 3 wins you will level up to the next round.  At round 2 there are only 4 guesses to match a word.  At round 3 there are only 3 guesses to match a word.
 - When you have reached Level 3 and matched 3 words - the game is over.
 - You may Toggle the Instructions at any point in the game to understand the
 rules.
 - The solution will be presented whether you win or lose.
+- It is possible to keep losing at any of the rounds and not leveling up.
 - To add a challenge you can select Timer to enable a 1 minute Timer to see
 if you can finish guessing within that time period.  If you do not guess the
-word in that time period, you automatically lose.   You may not Toggle the
-timer once it has been set.
+word in that time period, you automatically lose and you are presented with the word.   
+- You may not Toggle the timer once it has been set.
+- Reset will always deactivate the Timer and display a new scrambled word for guessing.
 
 # Wire Frames
 

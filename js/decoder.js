@@ -479,7 +479,7 @@ guessWord = () => {
         guessRowArray.push(guessRow.children[i].innerText);
         if (guessRow.children[i].innerText ===
             originalWordArray[i]) {
-            guessRow.children[i].style.backgroundColor = '#77DD77';
+            guessRow.children[i].style.backgroundColor = '#11FFEE';
         }
     }
 
