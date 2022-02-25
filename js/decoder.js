@@ -323,6 +323,7 @@ updateGameLoss = () => {
             (rounds === 3 && (guess === 3))) {
             lose++; 
             answerDisplay.innerHTML = `<span style="color: red">You LOSE!</span> ${originalWord.toUpperCase()}`;
+            resetAlarm();
             updateGameLoseDisplay();
             disableGuess();
             disableScramble();
