@@ -94,3 +94,20 @@ word in that time period, you automatically lose and you are presented with the 
 ## Times Up
 
 ![timesup image](TimesUp.png)
+
+# MVP
+- Present 5 letter scrambled word
+- Guess the letters in the word in 5 guesses
+- Provide clues to the correct letter position in guessed word
+- Instructions
+- Track Wins and Losses
+- Provide Win, Lose and Timed out message with actual word
+- Ability to set a Timer to create a challenge
+- Reset the game and display new scrambled word.
+
+# Stretch Goals
+- Provide 3 Levels to Win the game.
+- Make each level more difficult by removing a guess.
+- Tracking Wins, Losses in a Level.
+- Adding Undo capability, if player wants to undo a letter choice they
+can click on a letter to remove it.
