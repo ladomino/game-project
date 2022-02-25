@@ -1,6 +1,6 @@
 
 h1 {
-    height: 65px;
+    height: 75px;
     width: 250px;
 }
 
@@ -9,7 +9,7 @@ body {
     flex-direction: column;
     align-items: center;
     background-color: white;
-    margin-top: 50px;
+    margin-top: 20px;
 }
 
 div {
@@ -36,7 +36,7 @@ div {
     border-color: black;
     border: 2px solid #999;
     border-radius: 30px;
-    box-shadow: 1px 3px 0px 1px #C0C0C0;
+    box-shadow: 1px 3px 0px 1px #4C4E52
 }
 
 .decoder {
@@ -44,11 +44,12 @@ div {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background-color: rgb(128, 126, 126);
+    /* background-color: rgb(128, 126, 126); */
+    background-color: #53565B;
     height: 470px;
     width: 270px;
     border-style: solid;
-    border-color: black;
+    border-color: #36454F;
     border-radius: 30px;
 }
 .game {
@@ -74,6 +75,9 @@ div {
     justify-content: center;
     align-items: center;;
     margin-bottom: 8px;
+    color: white;
+    font-size: 11px;
+    font-family: "M PLUS Rounded 1c";
 }
 h4{
     margin: 2px;
@@ -99,7 +103,7 @@ p {
     align-content: center;
 }
 .buttons>div {
-    width: 40px;
+    /* width: 40px; */
     height: 30px;
     margin-top: 10px;
     margin: 6px;
@@ -111,7 +115,7 @@ button {
     background-color: lightgray;
     border-radius: 14px;
     border-style: none;
-    padding: 1px 10px;
+    padding: 1px 10px 1px 9px;
     outline: none;
     font-family: "M PLUS Rounded 1c";
     font-size: 14px;
@@ -262,7 +266,7 @@ button:hover {
 }
 
 .rules {
-    font-size: 14px;
     color: white;
-    /* background-color: black; */
+    font-size: 11px;
+    font-family: "M PLUS Rounded 1c";
 }

@@ -309,7 +309,7 @@ updateGameLoseDisplay = () => {
 updateGameLoss = () => {
 
     if (alarmRang) {
-        answerDisplay.innerText = 'Timed out: You LOSE!';
+        answerDisplay.innerHTML= `<span style="color: red">TIMES UP!</span> ${originalWord.toUpperCase()}`;
         lose++;
         updateGameLoseDisplay();
         disableGuess();
@@ -479,7 +479,7 @@ guessWord = () => {
         guessRowArray.push(guessRow.children[i].innerText);
         if (guessRow.children[i].innerText ===
             originalWordArray[i]) {
-            guessRow.children[i].style.backgroundColor = 'green';
+            guessRow.children[i].style.backgroundColor = '#77DD77';
         }
     }
 
@@ -551,7 +551,7 @@ startTimer = () => {
         if( seconds > 0 ) {
             alarm = setTimeout(tick, 1000);
         } else {
-            answerDisplay.innerText = 'Timed out: You LOSE!';
+            answerDisplay.innerHTML = `<span style="color: red">TIMES UP!</span> ${originalWord.toUpperCase()}`;
             alarmRang = true;
             updateGameLoss();
         }
